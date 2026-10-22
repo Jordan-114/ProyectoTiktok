@@ -1,28 +1,24 @@
-
+"""Guarda el estado local de sesión de Chromium para uso personal."""
 from pathlib import Path
 from playwright.sync_api import sync_playwright
 
-CARPETA = Path(__file__).resolve().parent
-ARCHIVO_SESION = CARPETA / "tiktok_state.json"
+BASE = Path(__file__).resolve().parent
+SALIDA = BASE / "tiktok_state.json"
 
-with sync_playwright() as p:
-    browser = p.chromium.launch(headless=False)
-    context = browser.new_context()
-    page = context.new_page()
+def main():
+    with sync_playwright() as p:
+        navegador = p.chromium.launch(headless=False)
+        contexto = navegador.new_context()
+        pagina = contexto.new_page()
+        pagina.goto("https://www.tiktok.com/login", wait_until="domcontentloaded")
+        print("Inicia sesión manualmente si es necesario.")
+        print("No automatices ni intentes eludir controles de seguridad.")
+        input("Cuando termines y veas TikTok, vuelve aquí y presiona ENTER...")
+        contexto.storage_state(path=str(SALIDA))
+        contexto.close()
+        navegador.close()
+    print(f"Sesión guardada localmente en: {SALIDA}")
+    print("No compartas este archivo ni lo subas a GitHub.")
 
-    try:
-        page.goto(
-            "https://www.tiktok.com/login",
-            wait_until="domcontentloaded",
-            timeout=60000
-        )
-
-        print("1. Inicia sesión manualmente en el navegador.")
-        print("2. Comprueba que TikTok haya abierto tu cuenta.")
-        input("3. Cuando termines, vuelve aquí y pulsa ENTER: ")
-
-        context.storage_state(path=str(ARCHIVO_SESION))
-        print(f"Estado de sesión guardado en: {ARCHIVO_SESION}")
-
-    finally:
-        browser.close()
+if __name__ == "__main__":
+    main()

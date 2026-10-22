@@ -1,146 +1,244 @@
-# ProyectoTiktok — Scraper de perfiles públicos
+# 📊 Proyecto TikTok: Scraping y análisis exploratorio Big Five con Python
 
-**Aplicación desarrollada en Python para consultar información pública de perfiles de TikTok mediante automatización del navegador con Playwright.**
+## 📌 Descripción del proyecto
 
-## Descripción
+Este proyecto utiliza Python para recopilar información pública de perfiles de TikTok, obtener descripciones de sus publicaciones y utilizar inteligencia artificial para realizar un análisis exploratorio basado en el modelo de personalidad **Big Five**.
 
-Proyecto académico que busca aplicar conceptos de programación en Python y automatización web para acceder a un perfil público de TikTok, obtener los datos que estén disponibles en la página y almacenarlos en un archivo JSON.
+Los resultados se almacenan en archivos JSON y se presentan mediante un informe HTML que facilita la visualización de los rasgos analizados.
 
-El proyecto utiliza una sesión del navegador guardada localmente para facilitar el acceso a la página cuando sea necesario.
+## 🎯 Objetivos
 
-## Objetivos
+- Recopilar información disponible públicamente de un perfil de TikTok.
+- Obtener las publicaciones y sus descripciones textuales cuando estén disponibles.
+- Identificar hashtags y otros datos relevantes de las publicaciones recopiladas.
+- Utilizar la API de Google Gemini para generar un análisis exploratorio de los cinco rasgos Big Five.
+- Guardar los resultados en archivos JSON.
+- Generar un informe visual en HTML.
+- Practicar Python, automatización de navegadores, procesamiento de datos e inteligencia artificial.
 
-- Desarrollar una aplicación de extracción de datos web utilizando Python.
-- Automatizar la navegación hacia perfiles públicos de TikTok.
-- Identificar y procesar datos del perfil disponibles en la página.
-- Guardar los resultados en formato JSON para facilitar su lectura y reutilización.
-- Practicar el manejo de archivos, excepciones y automatización con Playwright.
+## 🧰 Tecnologías utilizadas
 
-## Tecnologías utilizadas
+- **Python:** lenguaje principal del proyecto.
+- **Playwright:** automatización del navegador para acceder a páginas públicas de TikTok.
+- **Google Gemini API:** análisis exploratorio del contenido textual recopilado.
+- **JSON:** almacenamiento e intercambio de datos.
+- **HTML:** presentación visual de los resultados.
+- **Git y GitHub:** control de versiones y publicación del código fuente.
 
-- **Python:** lenguaje de programación.
-- **Playwright:** automatización del navegador.
-- **Chromium:** navegador utilizado por Playwright.
-- **JSON:** formato de almacenamiento de los resultados.
-
-## Funcionalidades
-
-- Apertura de TikTok mediante un navegador automatizado.
-- Uso de una sesión local guardada en el equipo.
-- Navegación a un perfil mediante su nombre de usuario.
-- Extracción de los datos del perfil que estén disponibles en la página.
-- Generación del archivo `resultado.json`.
-
-Los datos que pueden obtenerse incluyen el nombre de usuario, nombre visible, biografía, estado de verificación, seguidores, seguidos, cantidad de me gusta y número de publicaciones. La disponibilidad depende de la información que TikTok entregue en cada página.
-
-## Estructura del proyecto
+## 📂 Estructura del proyecto
 
 ```text
 ProyectoTiktok/
-├── guardar_sesion.py
-├── scrapear.py
-├── README.md
-├── .gitignore
-├── tiktok_state.json   # Local, no publicar
-└── resultado.json      # Archivo generado localmente
+├── scraper_tiktok.py          # Recopilación de datos públicos de TikTok
+├── guardar_sesion.py           # Preparación de la sesión local del navegador
+├── analizar_big_five.py       # Análisis con Google Gemini
+├── big_five.py                # Funciones auxiliares del análisis
+├── generar_informe.py         # Generación del informe HTML
+├── requirements.txt           # Dependencias de Python
+├── .env.example               # Plantilla de variables de entorno
+├── .env                       # Clave privada; no se publica
+├── .gitignore                 # Archivos excluidos de Git
+├── tiktok_state.json          # Estado local de sesión; no se publica
+├── resultado.json             # Datos recopilados
+├── resultado_big_five.json    # Resultados del análisis
+└── informe_big_five.html      # Informe visual generado
 ```
 
-Los dos últimos archivos son de uso local y están excluidos del repositorio mediante `.gitignore`.
+*Nota: los archivos JSON y el informe HTML se generan durante la ejecución. Los archivos privados y los resultados con datos personales deben mantenerse fuera del repositorio público cuando corresponda.*
 
-## Requisitos previos
+## ⚙️ Requisitos previos
 
-- Python instalado.
-- Git instalado.
-- Conexión a Internet.
-- Una cuenta de TikTok, si la página requiere iniciar sesión para acceder al contenido.
+Antes de ejecutar el proyecto, instala:
 
-## Instalación
+1. Python 3.13 o una versión compatible con las dependencias.
+2. Git para administrar el repositorio.
+3. Una clave de API de Google Gemini.
+4. Las dependencias de Python especificadas en `requirements.txt`.
+
+Puedes obtener una clave de Gemini desde Google AI Studio:
+
+https://aistudio.google.com/apikey
+
+## 🚀 Instalación en Windows
 
 ### 1. Clonar el repositorio
 
-```bash
-git clone URL_DE_TU_REPOSITORIO
+```powershell
+git clone https://github.com/Jordan-114/ProyectoTiktok.git
 cd ProyectoTiktok
 ```
 
-Sustituye `URL_DE_TU_REPOSITORIO` por la dirección real de tu repositorio de GitHub.
-
 ### 2. Crear un entorno virtual
-
-En Windows PowerShell:
 
 ```powershell
 python -m venv .venv
+```
+
+Activarlo en PowerShell:
+
+```powershell
 .\.venv\Scripts\Activate.ps1
 ```
 
-### 3. Instalar Playwright
+Si la creación del entorno virtual falla, revisa la instalación de Python y pip antes de continuar.
+
+### 3. Instalar las dependencias
 
 ```powershell
-python -m pip install playwright
+python -m pip install -r requirements.txt
+```
+
+### 4. Instalar Chromium para Playwright
+
+```powershell
 python -m playwright install chromium
 ```
 
-## Configuración y uso
+### 5. Configurar las variables de entorno
 
-### 1. Guardar la sesión local
+Crea un archivo `.env` en la carpeta raíz del proyecto. Puedes utilizar `.env.example` como referencia.
 
-Ejecuta:
+El archivo `.env` debe contener tu clave privada:
+
+```dotenv
+GEMINI_API_KEY=TU_CLAVE_REAL_DE_GEMINI
+```
+
+Reemplaza el valor de ejemplo por tu propia clave. No publiques este archivo ni compartas la clave en capturas de pantalla.
+
+## ▶️ Ejecución del proyecto
+
+Ejecuta los scripts desde la carpeta raíz del proyecto y en el orden indicado.
+
+### Paso 1. Preparar la sesión del navegador
 
 ```powershell
 python guardar_sesion.py
 ```
 
-Completa el proceso en el navegador y guarda el estado de la sesión localmente.
+Sigue las instrucciones del programa para preparar la sesión local, si TikTok solicita iniciar sesión.
 
-### 2. Configurar el perfil
+La sesión se guarda localmente para su uso posterior. No compartas el archivo `tiktok_state.json`, ya que puede contener cookies y datos de autenticación.
 
-Abre `scrapear.py` y establece el nombre de usuario del perfil que deseas consultar, sin el símbolo `@`.
-
-### 3. Ejecutar el scraper
+### Paso 2. Recopilar información de TikTok
 
 ```powershell
-python scrapear.py
+python scraper_tiktok.py
 ```
 
-Si la extracción se realiza correctamente, el programa mostrará los datos en la terminal y generará el archivo `resultado.json` en la carpeta del proyecto.
+Introduce el nombre de usuario cuando el programa lo solicite, de acuerdo con las instrucciones que muestre la terminal.
 
-## Ejemplo del resultado
+El scraper intenta recopilar datos del perfil y de sus publicaciones, incluidas las descripciones textuales y los hashtags disponibles.
 
-El archivo JSON puede tener una estructura similar a la siguiente:
+Los datos se guardan en:
 
-```json
-{
-  "usuario": "usuario_ejemplo",
-  "nombre": "Nombre de ejemplo",
-  "biografia": "Biografía de ejemplo",
-  "verificado": false,
-  "seguidores": 12500,
-  "seguidos": 350,
-  "me_gusta": 45000,
-  "publicaciones": 120,
-  "url": "https://www.tiktok.com/@usuario_ejemplo"
-}
+```text
+resultado.json
 ```
 
-*Los valores anteriores son ilustrativos y no corresponden a una cuenta real.*
+La cantidad de publicaciones recopiladas y la disponibilidad de sus descripciones pueden variar según el perfil y las restricciones de TikTok.
 
-## Consideraciones y limitaciones
+### Paso 3. Analizar las publicaciones con Gemini
 
-- La estructura interna de TikTok puede cambiar y afectar la extracción.
-- Algunos datos pueden no estar disponibles o requerir iniciar sesión.
-- La aplicación no garantiza que todos los perfiles o campos puedan consultarse.
-- Se recomienda respetar las condiciones de uso de TikTok y la privacidad de los usuarios.
-- Este proyecto tiene fines educativos y no pretende eludir mecanismos de seguridad o restricciones de acceso.
+```powershell
+python analizar_big_five.py
+```
 
-## Seguridad
+Este script utiliza la información recopilada para solicitar a Gemini un análisis exploratorio basado en los cinco rasgos del modelo Big Five.
 
-**No publiques archivos de sesión, cookies, contraseñas ni tokens de autenticación.** El archivo `tiktok_state.json` debe permanecer únicamente en el equipo local. Tampoco publiques datos personales o resultados que no tengas autorización para divulgar.
+El resultado se guarda en:
 
-## Autor
+```text
+resultado_big_five.json
+```
 
-Proyecto desarrollado como parte de una actividad académica universitaria.
+La ejecución requiere una clave de Gemini válida y las variables de entorno configuradas correctamente.
 
-**Nombre del proyecto:** ProyectoTiktok  
-**Lenguaje principal:** Python  
-**Área:** Automatización web y extracción de datos
+### Paso 4. Generar el informe visual
+
+```powershell
+python generar_informe.py
+```
+
+El generador utiliza los resultados disponibles para crear el informe visual en HTML.
+
+Si el archivo generado se llama `informe_big_five.html`, puedes abrirlo en Windows con:
+
+```powershell
+Start-Process .\informe_big_five.html
+```
+
+El informe puede consultarse desde el navegador y utilizarse como apoyo visual para la presentación académica.
+
+## 🧠 ¿Qué es el modelo Big Five?
+
+El modelo Big Five organiza la personalidad en cinco dimensiones generales:
+
+1. **Apertura a la experiencia:** interés por ideas, experiencias y actividades nuevas.
+2. **Responsabilidad:** organización, planificación y orientación al cumplimiento de objetivos.
+3. **Extraversión:** sociabilidad y tendencia a buscar interacción o estimulación social.
+4. **Amabilidad:** tendencias relacionadas con la cooperación y la consideración hacia los demás.
+5. **Neuroticismo:** dimensión relacionada con la tendencia a experimentar emociones negativas.
+
+El proyecto utiliza contenido textual de publicaciones como material para una exploración automatizada de estas dimensiones.
+
+**Importante:** las puntuaciones generadas por inteligencia artificial no constituyen una evaluación psicológica validada, un diagnóstico ni una medición científica de la personalidad. Las descripciones de TikTok son información limitada y no permiten establecer conclusiones definitivas sobre una persona.
+
+## 🔐 Seguridad y privacidad
+
+Para mantener seguro el proyecto:
+
+- No subir `.env` a GitHub.
+- No subir `tiktok_state.json` ni compartir cookies de sesión.
+- No publicar claves de API, contraseñas ni tokens.
+- Revisar los JSON y el HTML antes de publicarlos, ya que pueden contener nombres de usuario, enlaces u otros datos personales.
+- Utilizar los datos de forma responsable y respetar las condiciones de uso de TikTok y las restricciones de acceso de la plataforma.
+- No intentar eludir mecanismos de seguridad, CAPTCHA o limitaciones de acceso.
+
+El archivo `.gitignore` debe incluir, como mínimo:
+
+```gitignore
+.env
+.env.*
+tiktok_state.json
+.venv/
+__pycache__/
+```
+
+## 🛠️ Solución de problemas
+
+**Error al importar un módulo**
+
+Instala las dependencias:
+
+```powershell
+python -m pip install -r requirements.txt
+```
+
+**Error al iniciar Playwright**
+
+Instala el navegador requerido:
+
+```powershell
+python -m playwright install chromium
+```
+
+**Error de autenticación de Gemini**
+
+Comprueba que la clave esté correctamente configurada en `.env`, que sea válida y que el modelo utilizado esté disponible para tu API.
+
+**El scraper no encuentra suficientes descripciones**
+
+Comprueba la conexión, el perfil consultado y la disponibilidad de sus publicaciones. No todos los perfiles muestran el mismo contenido y TikTok puede limitar el acceso.
+
+**No se genera el informe HTML**
+
+Comprueba que los archivos de resultados necesarios existan y que la terminal no muestre errores al ejecutar `generar_informe.py`.
+
+## 👨‍🎓 Contexto académico
+
+Proyecto desarrollado con fines educativos para practicar técnicas de recopilación de información pública, procesamiento de datos, automatización con Python e integración de modelos de inteligencia artificial.
+
+## 📄 Licencia
+
+Proyecto académico personal. Antes de reutilizar o redistribuir el código, revisa las condiciones de las bibliotecas y servicios utilizados.

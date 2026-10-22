@@ -1,20 +1,8 @@
-
-# Entorno virtual de Python
 .venv/
-venv/
-env/
-
-# Sesiones y credenciales
-tiktok_state.json
-*.pem
-.env
-
-# Archivos temporales de Python
 __pycache__/
-*.py[cod]
-
-# Datos generados localmente
+*.pyc
+.env
+tiktok_state.json
 resultado.json
-
-# Configuración local de editores
-.vscode/
+resultado_big_five.json
+informe_big_five.html
