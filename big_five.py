@@ -1,7 +1,5 @@
 """Análisis exploratorio de TikTok: Big Five y Benford con Python local.
 
-La decisión sobre si la persona quiere viajar se calcula ÚNICAMENTE a partir
-de los porcentajes del Big Five (ya no se buscan palabras de viaje).
 """
 
 import math
